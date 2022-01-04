@@ -5,19 +5,15 @@ stages:
   - test
   - upload
 
-check:
+validate:
   stage: test
-  image:
-    name: hashicorp/terraform:latest
-    entrypoint:
-      - "/usr/bin/env"
-      - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+  image: registry.gitlab.com/gitlab-org/terraform-images/stable:latest
   before_script:
-    - terraform --version
-    - terraform init -backend=false
+    - gitlab-terraform --version
+    - gitlab-terraform init -backend=false
   script:
-    - terraform fmt -check
-    - terraform validate
+    - gitlab-terraform fmt -check
+    - gitlab-terraform validate
 
 upload:
   extends: .terraform_module_upload
