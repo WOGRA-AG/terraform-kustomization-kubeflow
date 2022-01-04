@@ -1,0 +1,26 @@
+include:
+  local: .gitlab/Terraform-Module-Upload.gitlab-ci.yml
+
+stages:
+  - test
+  - upload
+
+check:
+  stage: test
+  image:
+    name: hashicorp/terraform:latest
+    entrypoint:
+      - "/usr/bin/env"
+      - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+  before_script:
+    - terraform --version
+    - terraform init -backend=false
+  script:
+    - terraform fmt -check
+    - terraform validate
+
+upload:
+  extends: .terraform_module_upload
+  stage: upload
+  rules:
+    - if: $CI_COMMIT_TAG
