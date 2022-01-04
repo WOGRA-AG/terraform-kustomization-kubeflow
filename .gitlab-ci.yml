@@ -7,7 +7,7 @@ stages:
 
 validate:
   stage: test
-  image: registry.gitlab.com/gitlab-org/terraform-images/stable:latest
+  image: registry.gitlab.com/gitlab-org/terraform-images/releases/1.1
   before_script:
     - gitlab-terraform --version
     - gitlab-terraform init -backend=false
