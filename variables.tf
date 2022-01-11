@@ -1,3 +1,8 @@
+variable "kubernetes_config_path" {
+  description = "Path to kubernetes config file"
+  default = "~/.kube/config"
+}
+
 variable "deploy_istio" {
   description = "Deploy Kubeflow's istio components and configuration"
   type        = bool
