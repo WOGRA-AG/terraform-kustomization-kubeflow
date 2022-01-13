@@ -1,5 +1,4 @@
-#Create Knative-serving
-
+# Create Knative-serving
 data "kustomization_build" "knative-serving" {
   path = "github.com/kubeflow/manifests.git/common/knative/knative-serving/base?ref=${var.kf_version}"
 }
@@ -15,7 +14,7 @@ resource "kubectl_manifest" "knative-serving" {
   ]
 }
 
-#Create Istio cluster local gateway
+# Create Istio cluster local gateway
 data "kustomization_build" "istio-cluster-local-gateway" {
   path = "github.com/kubeflow/manifests.git/common/istio-1-9/cluster-local-gateway/base?ref=${var.kf_version}"
 }

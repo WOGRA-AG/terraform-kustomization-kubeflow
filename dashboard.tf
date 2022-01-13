@@ -1,3 +1,4 @@
+# Create Dashboard
 data "kustomization_build" "dashboard" {
   path = "github.com/kubeflow/manifests.git/apps/centraldashboard/upstream/overlays/istio?ref=${var.kf_version}"
 }
