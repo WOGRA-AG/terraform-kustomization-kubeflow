@@ -1,13 +1,13 @@
 # Terraform Kustomization Kubeflow
 
-This module was originally created by the ml research team at [Wogra AG][] 
+This module was originally created by the ml research team at [WOGRA AG][] 
 to deploy kubeflow as part of the [Os4ML][] project.
 
 **This module is experimental and not 
 for production use.**
 
 [Terraform]: https://www.terraform.io
-[Wogra AG]: https://wogra.com/
+[WOGRA AG]: https://wogra.com/
 [Os4ML]: https://github.com/WOGRA-AG/Os4ML
 
 ## Usage
@@ -39,5 +39,5 @@ module creates the following resources:
 - Kubeflow Serving
 - Kubeflow Pipelines
 
-Furthermore, istio ingress-gateway can be pathced from NodePort to 
+Furthermore, istio ingress-gateway can be patched from NodePort to 
 LoadBalancer.
