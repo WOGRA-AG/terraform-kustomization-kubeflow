@@ -55,11 +55,11 @@ variable "multi_user" {
 variable "istio_ingress" {
   description = "Patch istio ingress-gateway from NodePort to LoadBalancer"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "kf_version" {
   description = "Version der Kubeflow Manifests unter https://github.com/kubeflow/manifests"
   type        = string
-  default     = "master"
+  default     = "v1.4.1"
 }
