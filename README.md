@@ -33,7 +33,7 @@ In fact, all it takes is a running [Kubernetes][] cluster to get started.
 With [k3d][] you can do it like this, for example
 
 ```sh
-k3d cluster create os4ml-cluster
+k3d cluster create kubeflow-cluster
 ```
 
 If you want to do machine learning, GPUs are always an issue. Unfortunately, 
