@@ -59,7 +59,7 @@ variable "istio_ingress" {
 }
 
 variable "kf_version" {
-  description = "Version der Kubeflow Manifests unter https://github.com/kubeflow/manifests"
+  description = "Kubeflow Kustomize manifests version, see https://github.com/kubeflow/manifests"
   type        = string
   default     = "v1.4.1"
 }
