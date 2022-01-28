@@ -6,5 +6,5 @@ terraform {
 }
 
 module "kubeflow" {
-  source  = "WOGRA-AG/kubeflow/kustomization"
+  source = "WOGRA-AG/kubeflow/kustomization"
 }
