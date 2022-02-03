@@ -75,6 +75,10 @@ asked for credentials, there exists a standard user with email
 - As described in [Kubeflow/manifests][] the deploy may fail the first time.
   Please repeat `terraform apply` until it works.
 
+- There are reported problems with installation on Arm. Please provide us 
+  with error descriptions, e.g. open issues. In paralllel we plan to run it 
+  on a Nvidia Jetson Nano.
+
 ## Roadmap
 In the near future the following will happen:
 
@@ -83,6 +87,7 @@ In the near future the following will happen:
    - [ ] Support `>=v1.5.0` (April 2022)
 2. Features
    - [ ] Change standard user/password as input variable (February 2022)
+   - [ ] Installation on a Jetson Nano including GPU Support (May 2022)
 
 ## 	Acknowledgment
 This module was originally created by the ml research team at [WOGRA AG][] 
