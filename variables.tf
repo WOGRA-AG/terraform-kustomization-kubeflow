@@ -25,31 +25,31 @@ variable "deploy_katib" {
 variable "deploy_notebooks" {
   description = "Deploy Kubeflow Notebooks Component"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "deploy_tensorboard" {
   description = "Deploy Kubeflow Tensorboard Component"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "deploy_volumes" {
   description = "Deploy Kubeflow Volumes Web App Component"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "deploy_serving" {
   description = "Deploy Kubeflow Serving Component"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "istio_ingress" {
   description = "Patch istio ingress-gateway from NodePort to LoadBalancer"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "kf_version" {
