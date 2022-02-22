@@ -71,13 +71,14 @@ asked for credentials, there exists a standard user with email
 - Currently there are problems with higher version of [Kubeflow][], i.e. 
   `>=v1.5.0`. We're working on that in near future. Nevertheless, we are 
   waiting for a stable [Kubeflow][] release first.
-
 - As described in [Kubeflow/manifests][] the deploy may fail the first time.
   Please repeat `terraform apply` until it works.
-
 - There are reported problems with installation on Arm. Please provide us 
   with error descriptions, e.g. open issues. In paralllel we plan to run it 
   on a Nvidia Jetson Nano.
+- Although we recommend using k3d, there are problems with the image 
+  k3s:v1.22.6-k3s1. However, it is tested using the image k3s:v1.21.7-k3s1.
+
 
 ## Roadmap
 In the near future the following will happen:
