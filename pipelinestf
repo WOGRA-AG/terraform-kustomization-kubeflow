@@ -17,7 +17,7 @@ data "kustomization_overlay" "pipelines-metacontroller" {
 }
 
 resource "kubectl_manifest" "pipelines-metacontroller" {
-  for_each  = var.deploy_pipelines && var.multi_user ? data.kustomization_overlay.pipelines-metacontroller.ids : []
+  for_each  = var.deploy_pipelines ? data.kustomization_overlay.pipelines-metacontroller.ids : []
   yaml_body = yamlencode(jsondecode(data.kustomization_overlay.pipelines-metacontroller.manifests[each.value]))
   wait      = true
 
@@ -26,7 +26,7 @@ resource "kubectl_manifest" "pipelines-metacontroller" {
   ]
 }
 
-data "kustomization_overlay" "pipelines-multi-user" {
+data "kustomization_overlay" "pipelines" {
   resources = [
     "github.com/kubeflow/manifests.git/apps/pipeline/upstream/third-party/metacontroller/base?ref=${var.kf_version}",
     "github.com/kubeflow/manifests.git/apps/pipeline/upstream/third-party/mysql/base?ref=${var.kf_version}",
@@ -51,9 +51,9 @@ data "kustomization_overlay" "pipelines-multi-user" {
   namespace = "kubeflow"
 }
 
-resource "kubectl_manifest" "pipelines-multi-user" {
-  for_each  = var.deploy_pipelines && var.multi_user ? data.kustomization_overlay.pipelines-multi-user.ids : []
-  yaml_body = yamlencode(jsondecode(data.kustomization_overlay.pipelines-multi-user.manifests[each.value]))
+resource "kubectl_manifest" "pipelines" {
+  for_each  = var.deploy_pipelines ? data.kustomization_overlay.pipelines.ids : []
+  yaml_body = yamlencode(jsondecode(data.kustomization_overlay.pipelines.manifests[each.value]))
   wait      = true
 
   depends_on = [
@@ -66,12 +66,12 @@ data "kustomization_build" "pipelines-multi-user-emissary" {
 }
 
 resource "kubectl_manifest" "pipelines-multi-user-emissary" {
-  for_each  = var.deploy_pipelines && var.multi_user ? data.kustomization_build.pipelines-multi-user-emissary.ids : []
+  for_each  = var.deploy_pipelines ? data.kustomization_build.pipelines-multi-user-emissary.ids : []
   yaml_body = yamlencode(jsondecode(data.kustomization_build.pipelines-multi-user-emissary.manifests[each.value]))
   wait      = true
 
   depends_on = [
-    kubectl_manifest.pipelines-multi-user,
+    kubectl_manifest.pipelines,
   ]
 }
 

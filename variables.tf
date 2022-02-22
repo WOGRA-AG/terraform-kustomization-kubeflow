@@ -46,12 +46,6 @@ variable "deploy_serving" {
   default     = false
 }
 
-variable "multi_user" {
-  description = "Deploy Kubeflow Pipelines as multi-user Component"
-  type        = bool
-  default     = true
-}
-
 variable "istio_ingress" {
   description = "Patch istio ingress-gateway from NodePort to LoadBalancer"
   type        = bool
