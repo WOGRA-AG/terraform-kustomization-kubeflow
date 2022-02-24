@@ -46,10 +46,10 @@ variable "deploy_serving" {
   default     = true
 }
 
-variable "istio_ingress" {
+variable "istio_ingress_load_balancer" {
   description = "Patch istio ingress-gateway from NodePort to LoadBalancer"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "kf_version" {
