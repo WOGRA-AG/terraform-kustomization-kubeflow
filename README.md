@@ -65,7 +65,13 @@ Now, open `localhost:8000` for [Kubeflow][]. As described
 [here](https://kubernetes.io/docs/tasks/access-application-cluster/port-forward-access-application-cluster/),
 the connection is terminated when the command is aborted. Whenever you are 
 asked for credentials, there exists a standard user with email 
-`user@example.com` and password `12341234`.
+`user@example.com` and password `12341234`. Override the module defaults to 
+change these values. Keep in mind, that the password has to be hashed for 
+dex, e.g.
+
+```sh
+python3 -c 'from passlib.hash import bcrypt; import getpass; print(bcrypt.using(rounds=12, ident="2y").hash(getpass.getpass()))'
+```
 
 ## Known Issues
 - Currently there are problems with higher version of [Kubeflow][], i.e. 
@@ -87,7 +93,7 @@ In the near future the following will happen:
    - [x] Support `>=v1.4.1`
    - [ ] Support `>=v1.5.0` (April 2022)
 2. Features
-   - [ ] Change standard user/password as input variable (February 2022)
+   - [x] Change standard user/password as input variable (February 2022)
    - [ ] Installation on a Jetson Nano including GPU Support (May 2022)
 
 ## 	Acknowledgment
