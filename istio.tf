@@ -31,7 +31,7 @@ data "kustomization_build" "istio-base" {
 }
 
 resource "kustomization_resource" "istio-base" {
-  for_each = var.deploy_istio && !var.istio_ingress ? data.kustomization_build.istio-base.ids : []
+  for_each = var.deploy_istio && !var.istio_ingress_load_balancer ? data.kustomization_build.istio-base.ids : []
   manifest = data.kustomization_build.istio-base.manifests[each.value]
 
   depends_on = [
@@ -63,7 +63,7 @@ data "kustomization_overlay" "istio-ingress" {
 }
 
 resource "kustomization_resource" "istio-ingress" {
-  for_each = var.deploy_istio && var.istio_ingress ? data.kustomization_overlay.istio-ingress.ids : []
+  for_each = var.deploy_istio && var.istio_ingress_load_balancer ? data.kustomization_overlay.istio-ingress.ids : []
   manifest = data.kustomization_overlay.istio-ingress.manifests[each.value]
   depends_on = [
     kustomization_resource.istio-crds,
