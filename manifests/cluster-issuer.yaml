@@ -1,0 +1,33 @@
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+  namespace: cert-manager
+  labels:
+    kustomize.component: cert-manager
+    app.kubernetes.io/component: cert-manager
+    app.kubernetes.io/name: cert-manager
+spec:
+  acme:
+    email: acme@wogra.com
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: le-staging-issuer-account-key
+    solvers:
+      - http01:
+          ingress: { }
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    email: acme@wogra.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: le-prod-issuer-account-key
+    solvers:
+      - http01:
+          ingress: { }

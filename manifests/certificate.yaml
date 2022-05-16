@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: ingress-cert
+  namespace: istio-system
+spec:
+  secretName: ingress-cert
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer
+  dnsNames:
+    - os4ml.wogra.com

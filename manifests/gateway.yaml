@@ -1,0 +1,18 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: os4ml-gateway
+  namespace: os4ml
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      tls:
+        mode: SIMPLE
+        credentialName: ingress-cert
+      hosts:
+        - os4ml.wogra.com
