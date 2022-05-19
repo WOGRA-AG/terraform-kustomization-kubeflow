@@ -97,7 +97,7 @@ variable "kubeflow_dns_name" {
 variable "provide_tls" {
   description = "provide letsencrypt tls certificate"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "external_ip" {
