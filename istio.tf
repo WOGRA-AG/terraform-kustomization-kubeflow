@@ -1,33 +1,26 @@
-# Create istio namespace
-data "kustomization_build" "istio-namespace" {
-  path = "github.com/kubeflow/manifests.git/common/istio-1-9/istio-namespace/base?ref=${var.kf_version}"
-}
-
-resource "kubectl_manifest" "istio-namespace" {
-  for_each  = var.deploy_istio ? data.kustomization_build.istio-namespace.ids : []
-  yaml_body = yamlencode(jsondecode(data.kustomization_build.istio-namespace.manifests[each.value]))
-
-  wait = true
-  depends_on = [
-    kustomization_resource.cert-manager-base,
-    kubectl_manifest.cert-manager-issuer,
-  ]
-}
-
-# Add Istio certificates
+# Add Istio Custom Resources
 data "kustomization_build" "istio-crds" {
-  path = "github.com/kubeflow/manifests.git/common/istio-1-9/istio-crds/base?ref=${var.kf_version}"
+  path = "github.com/kubeflow/manifests.git/common/istio-1-11/istio-crds/base?ref=${var.kf_version}"
 }
 
 resource "kustomization_resource" "istio-crds" {
-  for_each   = var.deploy_istio ? data.kustomization_build.istio-crds.ids : []
-  manifest   = data.kustomization_build.istio-crds.manifests[each.value]
-  depends_on = [kubectl_manifest.istio-namespace]
+  for_each = var.deploy_istio ? data.kustomization_build.istio-crds.ids : []
+  manifest = data.kustomization_build.istio-crds.manifests[each.value]
+}
+
+# Create istio namespace
+data "kustomization_build" "istio-namespace" {
+  path = "github.com/kubeflow/manifests.git/common/istio-1-11/istio-namespace/base?ref=${var.kf_version}"
+}
+
+resource "kustomization_resource" "istio-namespace" {
+  for_each = var.deploy_istio ? data.kustomization_build.istio-namespace.ids : []
+  manifest = data.kustomization_build.istio-namespace.manifests[each.value]
 }
 
 # Create Istio base installation
 data "kustomization_build" "istio-base" {
-  path = "github.com/kubeflow/manifests.git/common/istio-1-9/istio-install/base?ref=${var.kf_version}"
+  path = "github.com/kubeflow/manifests.git/common/istio-1-11/istio-install/base?ref=${var.kf_version}"
 }
 
 resource "kustomization_resource" "istio-base" {
@@ -35,17 +28,18 @@ resource "kustomization_resource" "istio-base" {
   manifest = data.kustomization_build.istio-base.manifests[each.value]
 
   depends_on = [
-    kustomization_resource.istio-crds
+    kustomization_resource.istio-crds,
+    kustomization_resource.istio-namespace
   ]
 }
 
 data "kustomization_overlay" "istio-ingress" {
   resources = [
-    "github.com/kubeflow/manifests.git/common/istio-1-9/istio-install/base?ref=${var.kf_version}",
+    "github.com/kubeflow/manifests.git/common/istio-1-11/istio-install/base?ref=${var.kf_version}",
   ]
 
   patches {
-    target = {
+    target {
       kind      = "Service"
       namespace = "istio-system"
       name      = "istio-ingressgateway"
@@ -58,6 +52,7 @@ data "kustomization_overlay" "istio-ingress" {
         namespace: istio-system
       spec:
         type: LoadBalancer
+        loadBalancerIP: ${var.external_ip}
     EOF
   }
 }
@@ -67,17 +62,18 @@ resource "kustomization_resource" "istio-ingress" {
   manifest = data.kustomization_overlay.istio-ingress.manifests[each.value]
   depends_on = [
     kustomization_resource.istio-crds,
+    kustomization_resource.istio-namespace
   ]
 }
 
 # Create Istio Resources
 data "kustomization_build" "istio-resources" {
-  path = "github.com/kubeflow/manifests.git/common/istio-1-9/kubeflow-istio-resources/base?ref=${var.kf_version}"
+  path = var.provide_tls ? "${path.module}/manifests/kubeflow-istio-resources" : "github.com/kubeflow/manifests.git/common/istio-1-11/kubeflow-istio-resources/base?ref=${var.kf_version}"
 }
 
 resource "kustomization_resource" "istio-resources" {
   for_each = data.kustomization_build.istio-resources.ids
-  manifest = data.kustomization_build.istio-resources.manifests[each.value]
+  manifest = replace(data.kustomization_build.istio-resources.manifests[each.value], "$KUBEFLOW_DNS_NAME", var.kubeflow_dns_name)
   depends_on = [
     kustomization_resource.roles
   ]
