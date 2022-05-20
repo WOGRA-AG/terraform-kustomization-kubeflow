@@ -55,7 +55,7 @@ variable "istio_ingress_load_balancer" {
 variable "kf_version" {
   description = "Kubeflow Kustomize manifests version, see https://github.com/kubeflow/manifests"
   type        = string
-  default     = "v1.4.1"
+  default     = "v1.5.0"
 }
 
 variable "dex_user_email" {
@@ -80,4 +80,27 @@ variable "dex_user_id" {
   description = "Dex static password user id"
   type        = string
   default     = "15841185641784"
+}
+
+variable "letsencrypt_mail" {
+  description = "letsencrypt account email"
+  type        = string
+  default     = "user@example.com"
+}
+
+variable "kubeflow_dns_name" {
+  description = "kubeflow dns name"
+  type        = string
+  default     = "kubeflow.example.com"
+}
+
+variable "provide_tls" {
+  description = "provide letsencrypt tls certificate"
+  type        = bool
+  default     = false
+}
+
+variable "external_ip" {
+  description = "External IP for the ingress-gateway"
+  default     = "127.0.0.1"
 }

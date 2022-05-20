@@ -17,8 +17,9 @@ Depending on the input variables, the module creates the following resources:
 - Kubeflow Serving (optional)
 
 By default, Kubeflow multi-user pipelines are enabled. Furthermore, istio 
-ingress-gateway can be patched from NodePort to LoadBalancer. The 
-standard Kubeflow version is `v1.4.1`.
+ingress-gateway can be patched from NodePort to LoadBalancer. Tls can be enabled.  
+You have to provide your kubeflow-dns-name and letsencrypt email-address to automatically receive tls certificates.  
+The standard Kubeflow version is `v1.5.0`.
 
 ### Important
 **The module is in an early stage of development. Thus, it is experimental and 
@@ -74,16 +75,13 @@ python3 -c 'from passlib.hash import bcrypt; import getpass; print(bcrypt.using(
 ```
 
 ## Known Issues
-- Currently there are problems with higher version of [Kubeflow][], i.e. 
-  `>=v1.5.0`. We're working on that in near future. Nevertheless, we are 
-  waiting for a stable [Kubeflow][] release first.
 - As described in [Kubeflow/manifests][] the deploy may fail the first time.
   Please repeat `terraform apply` until it works.
 - There are reported problems with installation on Arm. Please provide us 
   with error descriptions, e.g. open issues. In paralllel we plan to run it 
   on a Nvidia Jetson Nano.
-- Although we recommend using k3d, there are problems with the image 
-  k3s:v1.22.6-k3s1. However, it is tested using the image k3s:v1.21.7-k3s1.
+- Although we recommend using k3d, there are problems with kubernetes versions greater than 1.21.
+  So, it is recommended and tested using the image k3s:v1.21.7-k3s1.
 
 
 ## Roadmap
@@ -91,7 +89,7 @@ In the near future the following will happen:
 
 1. [Kubeflow][]
    - [x] Support `>=v1.4.1`
-   - [ ] Support `>=v1.5.0` (April 2022)
+   - [x] Support `>=v1.5.0` (April 2022)
 2. Features
    - [x] Change standard user/password as input variable (February 2022)
    - [ ] Installation on a Jetson Nano including GPU Support (May 2022)

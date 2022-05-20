@@ -9,6 +9,11 @@ terraform {
       source  = "gavinbunney/kubectl"
       version = ">= 1.13.1"
     }
+
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = ">= 1.13.1"
+    }
   }
 
   required_version = "~> 1.1"
