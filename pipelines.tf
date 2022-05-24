@@ -61,13 +61,13 @@ resource "kubectl_manifest" "pipelines" {
   ]
 }
 
-data "kustomization_build" "pipelines-multi-user-emissary" {
-  path = "github.com/kubeflow/manifests.git/apps/pipeline/upstream/env/platform-agnostic-multi-user-emissary?ref=${var.kf_version}"
+data "kustomization_build" "pipelines-multi-user-pns" {
+  path = "github.com/kubeflow/manifests.git/apps/pipeline/upstream/env/platform-agnostic-multi-user-pns?ref=${var.kf_version}"
 }
 
 resource "kubectl_manifest" "pipelines-multi-user-emissary" {
-  for_each  = var.deploy_pipelines ? data.kustomization_build.pipelines-multi-user-emissary.ids : []
-  yaml_body = yamlencode(jsondecode(data.kustomization_build.pipelines-multi-user-emissary.manifests[each.value]))
+  for_each  = var.deploy_pipelines ? data.kustomization_build.pipelines-multi-user-pns.ids : []
+  yaml_body = yamlencode(jsondecode(data.kustomization_build.pipelines-multi-user-pns.manifests[each.value]))
   wait      = true
 
   depends_on = [
