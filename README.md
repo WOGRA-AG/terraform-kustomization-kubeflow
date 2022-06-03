@@ -1,7 +1,9 @@
 # Terraform Kustomization Kubeflow
 
 The `terraform-kustomization-kubeflow` uses Kubeflow's Kustomize manifests (see
-[Kubeflow/manifests][]) to install [Kubeflow][] on any [Kubernetes][] cluster.
+[Kubeflow/manifests][]) to install [Kubeflow][] on any [Kubernetes][] 
+cluster. In addition to this we added 'Let’s Encrypt' as optional Certificate 
+Authority (CA).
 
 ## About The Module
 
@@ -37,9 +39,10 @@ With [k3d][] you can do it like this, for example
 k3d cluster create kubeflow-cluster
 ```
 
-If you want to do machine learning, GPUs are always an issue. Unfortunately, 
-GPUs are known to be a topic of their own. For more information on how to 
-use GPUs please visit the OS4ML [docs][].
+Nevertheless, there is a known issue with k3d. Please check the 'Known 
+Issues' section below. If you want to do machine learning, GPUs are 
+always an issue. Unfortunately, GPUs are known to be a topic of their own. 
+For more information on how to use GPUs please visit the OS4ML [docs][].
 
 ### Installation
 In `./examples/kubernetes` you find a [Terraform][] script to install 
@@ -79,20 +82,24 @@ python3 -c 'from passlib.hash import bcrypt; import getpass; print(bcrypt.using(
   Please repeat `terraform apply` until it works.
 - There are reported problems with installation on Arm. Please provide us 
   with error descriptions, e.g. open issues. In paralllel we plan to run it 
-  on a Nvidia Jetson Nano.
-- Although we recommend using k3d, there are problems with kubernetes versions greater than 1.21.
-  So, it is recommended and tested using the image k3s:v1.21.7-k3s1.
-
+  on a Nvidia Jetson Nano, see roadmap.
+- **IMPORTANT!** Although we recommend using k3d, there are problems with 
+  kubernetes versions greater than 1.21.
+  So, it is recommended and tested using the image k3s:v1.21.7-k3s1, e.g.
+```sh
+k3d cluster create --image rancher/k3s:v1.21.7-k3s1 my-kubeflow-cluster
+```
 
 ## Roadmap
 In the near future the following will happen:
 
-1. [Kubeflow][]
-   - [x] Support `>=v1.4.1`
-   - [x] Support `>=v1.5.0` (April 2022)
-2. Features
-   - [x] Change standard user/password as input variable (February 2022)
-   - [ ] Installation on a Jetson Nano including GPU Support (May 2022)
+- [ ] Splitting the state into smaller parts, perhaps by using multiple 
+  modules. We think the state should be placed inside the cluster, but 
+  currently it is too big to do so. (June 2022)
+- [ ] Replace 'kubernetes' provider with 'kubectl' provider. Both provider 
+  do basically the same thing. (July 2022)
+- [ ] Installation on a Jetson Nano (ARMv8-64) including GPU support. (~~May~~ 
+  August 2022)
 
 ## 	Acknowledgment
 This module was originally created by the ml research team at [WOGRA AG][] 
