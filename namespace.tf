@@ -15,13 +15,27 @@ resource "kubectl_manifest" "kubeflow-namespace" {
 }
 
 # Create User namespace
-data "kustomization_build" "user-namespace" {
-  path = "github.com/kubeflow/manifests.git/common/user-namespace/base?ref=${var.kf_version}"
+data "kustomization_overlay" "user-namespace" {
+  config_map_generator {
+    name     = "default-install-config"
+    behavior = "replace"
+    envs = [
+
+    ]
+    literals = [
+      "user=${var.dex_user_email}",
+      "profile-name=${var.user_profile_name}"
+    ]
+  }
+
+  resources = [
+    "github.com/kubeflow/manifests.git/common/user-namespace/base?ref=${var.kf_version}",
+  ]
 }
 
 resource "kubectl_manifest" "user-namespace" {
-  for_each  = data.kustomization_build.user-namespace.ids
-  yaml_body = yamlencode(jsondecode(data.kustomization_build.user-namespace.manifests[each.value]))
+  for_each  = data.kustomization_overlay.user-namespace.ids
+  yaml_body = yamlencode(jsondecode(data.kustomization_overlay.user-namespace.manifests[each.value]))
   wait      = true
   depends_on = [
     kustomization_resource.profiles,
