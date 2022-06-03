@@ -19,7 +19,7 @@ variable "deploy_dashboard" {
 variable "deploy_katib" {
   description = "Deploy Kubeflow Katib Component"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "deploy_notebooks" {
@@ -31,19 +31,19 @@ variable "deploy_notebooks" {
 variable "deploy_tensorboard" {
   description = "Deploy Kubeflow Tensorboard Component"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "deploy_volumes" {
   description = "Deploy Kubeflow Volumes Web App Component"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "deploy_serving" {
   description = "Deploy Kubeflow Serving Component"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "istio_ingress_load_balancer" {
@@ -62,6 +62,12 @@ variable "dex_user_email" {
   description = "Dex static password user email for login"
   type        = string
   default     = "user@example.com"
+}
+
+variable "user_profile_name" {
+  description = "Name of user profile"
+  type        = string
+  default     = "kubeflow-user-example-com"
 }
 
 variable "dex_user_hash" {
@@ -85,7 +91,7 @@ variable "dex_user_id" {
 variable "letsencrypt_mail" {
   description = "letsencrypt account email"
   type        = string
-  default     = "user@example.com"
+  default     = "letsencrypt@example.com"
 }
 
 variable "kubeflow_dns_name" {
