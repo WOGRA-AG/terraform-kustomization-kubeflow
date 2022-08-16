@@ -2,7 +2,7 @@ terraform {
 }
 
 module "kubeflow" {
-  source = "WOGRA-AG/kubeflow/kustomization"
+  source = "../../"
 
-  dex_user_email = "my@example.com"
+  dex_user_email = "user@example.com"
 }
